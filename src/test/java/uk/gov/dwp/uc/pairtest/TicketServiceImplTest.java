@@ -2,16 +2,13 @@ package uk.gov.dwp.uc.pairtest;
 
 import org.junit.Test;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
-import uk.gov.dwp.uc.pairtest.exception.AdultRequiredException;
-import uk.gov.dwp.uc.pairtest.exception.InvalidAccountException;
-import uk.gov.dwp.uc.pairtest.exception.InvalidNegativeTicketsException;
-import uk.gov.dwp.uc.pairtest.exception.InvalidNoOfTicketsException;
+import uk.gov.dwp.uc.pairtest.exception.*;
 
 import static uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest.Type.*;
 
 public class TicketServiceImplTest {
 
-    @Test(expected = InvalidAccountException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void invalidAccountPurchase1Ticket() {
         Long account = -1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -29,7 +26,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketTypeRequest);
     }
 
-    @Test(expected = InvalidNoOfTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchase21Ticket() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -38,7 +35,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketTypeRequest);
     }
 
-    @Test(expected = InvalidNegativeTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseLessThan1Ticket() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -47,7 +44,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketTypeRequest);
     }
 
-    @Test(expected = InvalidNegativeTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseValidTicketsAndRequestWithLessThan1InfantTicket() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -58,7 +55,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketTypeRequest, ticketChildRequest, ticketInfantRequest);
     }
 
-    @Test(expected = InvalidNegativeTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseValidTicketsAndRequestWithLessThan1ChildTicket() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -69,7 +66,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketTypeRequest, ticketChildRequest, ticketInfantRequest);
     }
 
-    @Test(expected = InvalidNoOfTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchase21TicketsAcrossAdultAndChildTypes() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -79,7 +76,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketAdultRequest, ticketChildRequest);
     }
 
-    @Test(expected = InvalidNoOfTicketsException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchase21TicketsAcrossAllTypes() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -90,7 +87,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketAdultRequest, ticketChildRequest, ticketInfantRequest);
     }
 
-    @Test(expected = AdultRequiredException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseOnlyChildTicketTypes() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -100,7 +97,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketInfantRequest, ticketChildRequest);
     }
 
-    @Test(expected = AdultRequiredException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseTooManyInfantTicketTypes() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -110,7 +107,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketAdultRequest, ticketInfantRequest);
     }
 
-    @Test(expected = AdultRequiredException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseTooManyChildTicketTypes() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
@@ -120,7 +117,7 @@ public class TicketServiceImplTest {
         ticketService.purchaseTickets(account, ticketAdultRequest, ticketChildRequest);
     }
 
-    @Test(expected = AdultRequiredException.class)
+    @Test(expected = InvalidPurchaseException.class)
     public void validAccountPurchaseMultipleTicketTypesOfBadRatio() {
         Long account = 1L;
         TicketServiceImpl ticketService = new TicketServiceImpl();
